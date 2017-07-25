@@ -1,0 +1,365 @@
+# とりあえずMUST項目のみ
+# inherit_from: 
+#     - .rubocop_todo.yml
+
+AllCops:
+    DisabledByDefault: true
+
+    TargetRubyVersion: 2.3
+
+    DisplayCopNames: true
+
+    Exclude:
+        - 'bin/*'
+        - 'db/schema.rb'
+        - '*.rspec'
+        - 'Gemfile'
+        - 'tmp/**/*'
+        - 'log/**/*'
+        - 'public/**/*'
+        - '**/*.gemspec'
+        - '**/*.podspec'
+        - '**/*.jbuilder'
+        - '**/*.rake'
+        - '**/*.opal'
+        - '**/config.ru'
+        - '**/Gemfile'
+        - '**/Rakefile'
+        - '**/Capfile'
+        - '**/Guardfile'
+        - '**/Podfile'
+        - '**/Thorfile'
+        - '**/Vagrantfile'
+        - '**/Berksfile'
+        - '**/Cheffile'
+        - '**/Vagabondfile'
+        - '**/Fastfile'
+        - '**/*Fastfile'
+
+Rails:
+    Enabled: true
+
+Style/AsciiComments:
+  Enabled: false
+
+# インデント
+Style/MultilineBlockChain:
+  Enabled: true
+
+# 空白
+Layout/TrailingWhitespace:
+  Enabled: true
+
+# 空行
+#Layout/TrailingBlankLines:
+#  Enabled: true
+#  EnforcedStyle: final_newline # デフォルトでは末尾一行入ることを許容している
+
+# 文字エンコーディングとマジックコメント
+
+# 1行の文字数
+LineLength:
+  Max: 128
+
+# 数値
+Style/NumericLiterals:
+  Enabled: true
+  
+
+# 文字列
+
+# 正規表現
+
+# 配列
+Style/EmptyLiteral:
+  Enabled: true
+
+Layout/IndentArray:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+# ハッシュ
+Layout/SpaceInsideHashLiteralBraces:
+  Enabled: true
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: ruby19
+
+Layout/IndentHash:
+  Enabled: true
+  EnforcedStyle: consistent
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+# 演算子
+Layout/SpaceAroundOperators:
+  Enabled: true
+
+Style/AndOr:
+  Enabled: true
+
+Style/NestedTernaryOperator:
+  Enabled: true
+
+Style/MultilineTernaryOperator:
+  Enabled: true
+
+# 代入式
+Lint/AssignmentInCondition:
+  Enabled: true
+
+Layout/SpaceAroundEqualsInParameterDefault:
+  Enabled: true
+
+# 制御構造
+Style/NegatedIf:
+  Enabled: true
+  EnforcedStyle: both
+
+Style/NegatedWhile:
+  Enabled: true
+
+Style/UnlessElse:
+  Enabled: true
+
+Style/MultilineIfThen:
+  Enabled: true
+
+Style/WhileUntilDo:
+  Enabled: true
+
+Style/ConditionalAssignment:
+  Enabled: true
+  EnforcedStyle: assign_to_condition
+
+# nextとbreakがない
+Style/RedundantReturn:
+  Enabled: true
+
+# メソッド呼び出し
+
+# DSL Likeのメソッド呼び出しを網羅しきれないため一旦除外
+#Style/MethodCallWithArgsParentheses:
+#  Enabled: true
+#  IgnoredMethods:
+#    - "require"
+#    - "context"
+#    - "it"
+#    - "describe"
+#    - "to"
+#    - "eq"
+#    - "eql"
+#    - "not_to"
+#    - "to_not"
+#    - "expect_with"
+#    - "mock_with"
+#    - "visit"
+#    - "get"
+#    - "post"
+#    - "xit"
+#    - "match"
+#    - "include"
+#    - "within"
+#    - "fill_in"
+#    - "click_on"
+#    - "working"
+#    - "queue"
+#    - "hostname"
+#    - "image"
+#    - "factory"
+#    - "last_name"
+#    - "first_name"
+#    - "script"
+#    - "path"
+#    - "expected_value"
+#    - "job_instances_token_status"
+#    - "job_instances_count"
+#    - "prevent_multi"
+#    - "description"
+#    - "exit_status"
+#    - "shell"
+#    - "index"
+#    - "before_action"
+#    - "datetime"
+#    - "integer"
+#    - "boolean"
+#    - "string"
+#    - "create_table"
+#    - "text"
+#    - "mount"
+#    - "plugin"
+#    - "port"
+#    - "environment"
+#    - "threads"
+#    - "wrap_parameters"
+#    - "session_store"
+#    - "require_relative"
+#    - "system!"
+#    - "puts"
+#    - "put"
+#    - "chdir"
+#    - "new"
+#    - "load"
+#    - "delete"
+#    - "redirect_to"
+#    - "be"
+#    - "patch"
+#    - "raise"
+#    - "info"
+#    - "adapter"
+#    - "assert_equal" 
+#    - "url"
+#    - "sleep"
+#    - "warn"
+#    - "change_column"
+#    - "add_index"
+#    - "remove_index"
+#    - "timestamps"
+#    - "references"
+#    - "namespace"
+#    - "resources"
+#    - "scope"
+#    - "root"
+#    - "say"
+#    - "rake"
+#    - "run"
+#    - "create_file"
+#    - "route"
+#    - "gem"
+#    - "gem_group"
+#    - "gsub_file"
+#    - "has_many"
+#    - "throw"
+#    - "alias_method"
+#    - "head"
+#    - "render"
+#    - "haad"
+#    - "rescue_from"
+#    - "protect_resource_as"
+#    - "validates"
+#    - "hash"
+#    - "srand"
+#    - "filter_run_when_matching"
+#    - "enable_extension"
+#    - "unshift"
+#    - "initializer"
+#    - "should"
+#    - "pending"
+#    - "be_instance_of"
+#    - "be_a"
+#    - "delegate"
+#    - "attr_reader"
+#    - "specify"
+#    - "apply_auth_middleware"
+#    - "use"
+#    - "assert_includes"
+#    - "assert_nil"
+#    - "unshift"
+#    - "require_warnings"
+#    - "lint"
+#    - "infer"
+#    - "findbugs"
+#    - "validate_comment"
+#    - "validate_hash"
+#    - "debug"
+#    - "run"
+#    - "quit_osx_applicaition"
+#    - "find_issues"
+#    - "warn"
+#    - "add_artifacts"
+#    - "ln_s"
+#    - "xcodebuild"
+#    - "yield"
+#    - "delete_at"
+#    - "add_issue"
+#    - "error"
+#    - "symbolize_keys"
+#    - "gradle"
+#    - "update_hash!"
+#    - "prepare_directories_and_options"
+#    - "concat"
+#    - "test"
+#    - "archive"
+#    - "filter_run"
+#    - "prepend"
+#    - "private"
+#    - "appraise"
+#    - "channel"
+#    - "notify_success"
+#    - "failure_notification_text"
+#    - "finished_at"
+#    - "status"
+#    - "command"
+#    - "rename_table"
+#    - "any"
+#    - "name"
+#    - "create"
+#    - "add_column"
+#    - "provider"
+#    - "alias_method"
+#    - "exit"
+#    - "resource"
+
+Style/MethodCallWithoutArgsParentheses:
+  Enabled: true
+
+Layout/SpaceAfterMethodName:
+  Enabled: true
+
+Layout/BlockEndNewline:
+  Enabled: true
+
+Layout/SpaceBeforeBlockBraces:
+  Enabled: true
+  EnforcedStyle: space
+
+Lint/BlockAlignment:
+  Enabled: true
+
+Layout/SpaceInsideBlockBraces:
+  Enabled: true
+  EnforcedStyle: space
+  EnforcedStyleForEmptyBraces: no_space
+
+# BEGINとEND
+Style/BeginBlock:
+  Enabled: true
+
+Style/EndBlock:
+  Enabled: true
+
+# モジュールとクラスの定義
+Style/Alias:
+  Enabled: true
+  EnforcedStyle: prefer_alias_method
+
+Style/Attr:
+  Enabled: true
+
+Style/Documentation:
+  Enabled: false
+
+Layout/AccessModifierIndentation:
+  Enabled: true
+
+Layout/EmptyLinesAroundAccessModifier:
+  Enabled: true
+
+# メソッドの定義
+Lint/ParenthesesAsGroupedExpression:
+  Enabled: true
+
+# 変数
+Style/GlobalVars:
+  Enabled: true
+
+Style/ClassVars:
+  Enabled: true
+
+# TODO: AbcSize, Conditionalassignment
+
