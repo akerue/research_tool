@@ -5,7 +5,11 @@ from pprint import pprint
 from sklearn.metrics import precision_score, recall_score, f1_score, classification_report
 
 import os
+import re
 import json
+
+import numpy as np
+import matplotlib.pyplot as plt
 
 env.use_ssh_config = True
 env.users = ["y_kobayashi_local"]
@@ -205,3 +209,49 @@ def evaluate():
     local("python generate_token_json.py --source test --output tokens/result.json")
     analyze_with_rubo("test")
     calculate()
+
+
+@task
+def parse_result(result_file="./result.log"):
+    with open(result_file, "r") as f:
+        results = f.readlines()
+
+    regex = r"([+-]?[0-9]+\.?[0-9]*)"
+    data_list = np.empty((0, 4), float)
+
+    for l in results:
+        if l.startswith("  Wrong point"):
+            data = re.findall(regex, l)
+            data = [float(i) for i in data]
+            data_list = np.append(data_list, np.array([data]), axis=0)
+
+    print len(data_list)
+    return data_list
+
+
+@task
+def draw_plot(result_file="./result.log"):
+    data_list = parse_result(result_file)
+
+    precision_list = data_list[:, 0]
+    recall_list = data_list[:, 1]
+
+    plt.plot(precision_list, recall_list, ".")
+    plt.xlim(0.0, 1.0)
+    plt.ylim(0.0, 1.0)
+    plt.xlabel("Precision", fontsize=20)
+    plt.ylabel("Recall", fontsize=20)
+    plt.title("Result of analyzing Cookpad intra source codes")
+
+    plt.show()
+
+
+@task
+def draw_histogram(result_file="./result.log"):
+    data_list = parse_result(result_file)
+
+    f_list = data_list[:, 2]
+
+    plt.hist(f_list, bins=100)
+    plt.show()
+
