@@ -72,5 +72,7 @@ shapado/
 test/
 tmp/
 tokens/
+rubo_result/
+sc_result/
 
 tokens.json

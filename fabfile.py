@@ -113,7 +113,7 @@ def evaluate_with_sc(tokens, json_path):
 
 
 @task
-def calculate(token_dir="./tokens", rubo_dir="./rubo_result", sc_dir="./sc_result"):
+def calculate(token_dir="./tokens", rubo_dir="./rubo_result", sc_dir="./sc_result", optimistic=False):
     # 評価対象のプログラムパスとそこに含まれるトークンが登録される
     token_dict = {}
 
@@ -160,12 +160,59 @@ def calculate(token_dir="./tokens", rubo_dir="./rubo_result", sc_dir="./sc_resul
             for index in rubo_index:
                 rubo_mesh[index[0]][index[1]] = 1
 
-            rubo_list = [flatten for inner in rubo_mesh for flatten in inner]
 
             # 予測データ(Style Checker)
             for index in sc_index:
                 sc_mesh[index[0]][index[1]] = 1
 
+            if optimistic:
+                rubo_stock = []
+                sc_stock = []
+                for i in range(len(rubo_mesh)):
+                    for j in range(len(rubo_mesh[i])):
+                        if rubo_mesh[i][j] == 1 and sc_mesh[i][j] == 1:
+                            # まずはrubo_meshの前から
+                            for k in xrange(10000):  # とりあえずでかい数字
+                                if j - k < 0:
+                                    break
+                                elif rubo_mesh[i][j-k] == 0:
+                                    break
+                                else:
+                                    sc_stock.append((i, j-k))
+
+                            # rubo_meshの後ろ
+                            for k in xrange(10000):  # とりあえずでかい数字
+                                if j + k >= len(rubo_mesh[i]):
+                                    break
+                                elif rubo_mesh[i][j+k] == 0:
+                                    break
+                                else:
+                                    sc_stock.append((i, j+k))
+
+                            # sc_meshの前
+                            for k in xrange(10000):  # とりあえずでかい数字
+                                if j - k < 0:
+                                    break
+                                elif sc_mesh[i][j-k] == 0:
+                                    break
+                                else:
+                                    rubo_stock.append((i, j-k))
+
+                            # sc_meshの後ろ
+                            for k in xrange(10000):  # とりあえずでかい数字
+                                if j + k >= len(sc_mesh[i]):
+                                    break
+                                elif sc_mesh[i][j+k] == 0:
+                                    break
+                                else:
+                                    rubo_stock.append((i, j+k))
+
+                for s in rubo_stock:
+                    rubo_mesh[s[0]][s[1]] = 1
+                for s in sc_stock:
+                    sc_mesh[s[0]][s[1]] = 1
+
+            rubo_list = [flatten for inner in rubo_mesh for flatten in inner]
             sc_list = [flatten for inner in sc_mesh for flatten in inner]
 
             print(classification_report(rubo_list, sc_list,
@@ -201,14 +248,14 @@ def clean_up():
 
 
 @task
-def evaluate():
+def evaluate(optimistic=False):
     clean_up()
     # check_style("test")
     download_jsons()
     download_scripts()
     local("python generate_token_json.py --source test --output tokens/result.json")
     analyze_with_rubo("test")
-    calculate()
+    calculate(optimistic)
 
 
 @task
@@ -251,7 +298,23 @@ def draw_histogram(result_file="./result.log"):
     data_list = parse_result(result_file)
 
     f_list = data_list[:, 2]
+    index_list = np.where(f_list > 0.0)
 
-    plt.hist(f_list, bins=100)
+    plt.hist(f_list[index_list], bins=100)
+    print f_list[index_list]
+
     plt.show()
 
+
+@task
+def draw_point_histogram(result_file="./result.log"):
+    data_list = parse_result(result_file)
+
+    point_list = data_list[:, 3]
+
+    index_list = np.where(point_list > 0.0)
+    draw_list = point_list[index_list].astype(int)[:-1]
+
+    plt.hist(draw_list, bins=100)
+
+    plt.show()
